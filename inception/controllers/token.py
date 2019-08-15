@@ -1,4 +1,5 @@
-from nanohttp import json, context, HTTPStatus, HTTPNotFound, RestController
+from nanohttp import json, context, HTTPStatus, HTTPNotFound, RestController, \
+    HTTPStatus
 from restfulpy.orm import DBSession, commit
 
 from ..models import Member
@@ -7,25 +8,18 @@ from ..models import Member
 class TokenController(RestController):
 
     @json(prevent_empty_form=True)
-    @Foo.validate(strict=True)
-    @commit
+    @email_validator
     def create(self):
         email = context.form.get('email')
         password = context.form.get('password')
+        if email and password is None:
+            raise HTTPIncorrectEmailOrPassword()
 
-        member = DBSession.query(Member) \
-            .filter(Member.email == email) \
-            .one_or_none()
-        if member is None:
-            raise HTTPStatus('400 Invalid email or password')
+        principal = context.application.__authenticator__.\
+            login((email, password))
 
+        if principal is None:
+            raise HTTPStatus('400 Invalid Email Or Password')
 
-
-        if DBSession.query(Foo).filter(Foo.title == title).count():
-            raise HTTPStatus('604 Title Is Already Registered')
-
-        foo = Foo()
-        foo.update_from_request()
-        DBSession.add(foo)
-        return foo
+        return dict(token=principal.dump())
 

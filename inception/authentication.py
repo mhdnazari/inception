@@ -59,20 +59,5 @@ class Authenticator(StatefulAuthenticator):
         return member
 
     def verify_token(self, encoded_token):
-        if not encoded_token.startswith('oauth2-accesstoken'):
-            return CASPrincipal.load(encoded_token)
-
-        access_token = AccessToken.load(encoded_token.split(' ')[1])
-        if not DBSession.query(ApplicationMember) \
-                .filter(
-                    ApplicationMember.application_id ==  \
-                    access_token.application_id,
-                    ApplicationMember.member_id == access_token.member_id
-                ) \
-                .one_or_none():
-            raise HTTPForbidden()
-
-        return access_token
-
-
+        return CASPrincipal.load(encoded_token)
 
