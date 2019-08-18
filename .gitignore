@@ -97,3 +97,7 @@ data
 
 # pytest
 .pytest_cache
+
+inception.egg-info
+.ropeproject
+.pytest_cache
