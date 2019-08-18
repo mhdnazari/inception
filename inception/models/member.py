@@ -60,17 +60,17 @@ class Member(DeclarativeBase):
     id = Field(Integer, primary_key=True)
     name = Field(
         Unicode(50),
-        required='Name is required',
-        not_none='Name cannot be null',
-        min_length=(3, 'Name length should be between 3 and 50'),
-        max_length=(50, 'Name length should be betwen 3 and 50'),
+        required=True,
+        not_none=True,
+        min_length=3,
+        max_length=50,
     )
     family=Field(
         Unicode(50),
-        required='Family is required',
-        non_none='Family cannot be null',
-        min_length=(3,'Family length should be between 3 and 50'),
-        max_length=(50, 'Family length should be between 3 and 50'),
+        required=True,
+        non_none=True,
+        min_length=3,
+        max_length=50,
     )
     __avatar = Field(
         'avatar',
@@ -87,17 +87,17 @@ class Member(DeclarativeBase):
         unique=True,
         index=True,
         pattern=r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
-        required='Email is required',
-        not_none='Email cannot be null',
-        min_length=(5, 'Email length should be between 5 and 200'),
-        max_length=(200, 'Email length should be between 5 and 200'),
+        required=True,
+        not_none=True,
+        min_length=5,
+        max_length=200,
     )
     _password = Field(
         Unicode(50),
-        required='Password is required',
-        not_none='Password cannot be null',
-        min_length=(5, 'Password length should be between 5 and 50'),
-        max_length=(200, 'Password length should be between 5 and 200'),
+        required=True,
+        not_none=True,
+        min_length=5,
+        max_length=200,
         protected=True,
     )
     #TODO: use sqlalchemy media
