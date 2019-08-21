@@ -3,10 +3,12 @@ from restfulpy.controllers import RootController
 
 import inception
 from .foo import FooController
+from .token import TokenController
 
 
 class ApiV1(Controller):
     foos = FooController()
+    tokens = TokenController()
 
     @json
     def version(self):

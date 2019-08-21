@@ -1,12 +1,11 @@
-from cas import CASPrincipal
 from itsdangerous import JSONWebSignatureSerializer
 from nanohttp import context, HTTPStatus, HTTPForbidden
 from restfulpy.authentication import StatefulAuthenticator
 from restfulpy.orm import DBSession
 from sqlalchemy_media import store_manager
+from restfulpy.principal import JWTPrincipal
 
-from .models import Member, ApplicationMember
-from .oauth.tokens import AccessToken
+from .models import Member
 
 
 class Authenticator(StatefulAuthenticator):
@@ -59,5 +58,5 @@ class Authenticator(StatefulAuthenticator):
         return member
 
     def verify_token(self, encoded_token):
-        return CASPrincipal.load(encoded_token)
+        return JWTPrincipal.load(encoded_token)
 

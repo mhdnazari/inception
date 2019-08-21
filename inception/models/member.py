@@ -1,9 +1,16 @@
 import os
+import uuid
 from hashlib import sha256
 
-from retfulpy.orm import DeclarativeBase, Field, relationship
-from sqlalchemy import Integer, Unicode, ForegnKey, synonym, JSON
+from restfulpy.principal import JWTPrincipal, JWTRefreshToken
+from restfulpy.orm import DeclarativeBase, Field, relationship
+from sqlalchemy import Integer, Unicode, ForeignKey, JSON
+from sqlalchemy.orm import synonym
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy_media import Image, MagicAnalyzer, ContentTypeValidator, \
+    ImageValidator, ImageAnalyzer
+
+from ..validators import member_validator
 
 
 AVATAR_CONTENT_TYPES = ['image/jpeg', 'image/png']
@@ -68,7 +75,7 @@ class Member(DeclarativeBase):
     family=Field(
         Unicode(50),
         required=True,
-        non_none=True,
+        not_none=True,
         min_length=3,
         max_length=50,
     )
@@ -86,14 +93,15 @@ class Member(DeclarativeBase):
         Unicode(200),
         unique=True,
         index=True,
-        pattern=r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'
-        required=True,
+        pattern=r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)',
         not_none=True,
+        required=True,
         min_length=5,
         max_length=200,
     )
     _password = Field(
-        Unicode(50),
+        'password',
+        Unicode(128),
         required=True,
         not_none=True,
         min_length=5,
@@ -146,11 +154,29 @@ class Member(DeclarativeBase):
 
         hashed_pass = sha256()
         hashed_pass.update((salt + value).encode('utf-8'))
-        self._password = salt + hashed_password.hexdigest()
+        self._password = salt + hashed_pass.hexdigest()
 
-        password = synonym(
-            '_password',
-            descriptor=property(_get_password, _set_passwoord),
-            info=dict(protected=True)
-        )
+    def validate_password(self, password):
+        hashed_pass = sha256()
+        hashed_pass.update((self.password[:64] + password).encode('utf-8'))
+
+        return self.password[64:] == hashed_pass.hexdigest()
+
+    password = synonym(
+        '_password',
+        descriptor=property(_get_password, _set_password),
+        info=dict(protected=True)
+    )
+
+    def create_jwt_principal(self):
+        return JWTPrincipal({
+            'id': self.id,
+            'email': self.email,
+            'name': self.name,
+            'family': self.family,
+            'sessionId': str(uuid.uuid4()),
+        })
+
+    def create_refresh_principal(self):
+        return JWTRefreshToken(dict(id=self.id))
 
