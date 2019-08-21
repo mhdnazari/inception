@@ -5,6 +5,7 @@ from ..models import Member
 
 
 class MemberController(RestController):
+    __model__ = Member
 
     @json(prevent_empty_form=True)
     @Foo.validate(strict=True)
