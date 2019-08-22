@@ -18,5 +18,9 @@ member_validator = validate(
         max_length=(50, '706 Title Length Is More Than 50'),
         min_length=(5, '707 Title Length Is More Than 50'),
     ),
+    name=dict(
+        required='723 Name Not In Form',
+    ),
 )
+
 
