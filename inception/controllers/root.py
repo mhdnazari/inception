@@ -4,11 +4,13 @@ from restfulpy.controllers import RootController
 import inception
 from .foo import FooController
 from .token import TokenController
+from .member import MemberController
 
 
 class ApiV1(Controller):
     foos = FooController()
     tokens = TokenController()
+    register = MemberController()
 
     @json
     def version(self):

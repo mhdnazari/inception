@@ -6,28 +6,29 @@ from .helpers import LocalApplicationTestCase
 class TestMember(LocalApplicationTestCase):
     @classmethod
     def mockup(cls):
-        member = Member(
+        cls.member = Member(
             name='member name',
             family='member family',
             email='already.added@example.com',
             _password='123abc',
         )
         session = cls.create_session()
-        session.add(member)
+        session.add(cls.member)
         session.commit()
 
     def test_register(self):
-        json = dict(
+        form = dict(
             name='new name',
             family='new family',
-            email='new.added@example.com',
-            _password='abc123',
+            email='already@example.com',
+            password='123abc',
         )
 
         with self.given(
             'Register a member',
-            '/apiv1/registermembers',
+            '/apiv1/register',
             'REGISTER',
+            form=form,
         ):
          assert response.status == 200
 
@@ -38,7 +39,7 @@ class TestMember(LocalApplicationTestCase):
              'Email address already is registered',
              form=Update(email='already.added@example.com')
          )
-         assert status == '601 Email Address Us Already Registered'
+         assert status == '601 Email Address Is Already Registered'
 
          when('Request without email parameter', form=Remove('email'))
          assert status == '722 Email Not In Form'
