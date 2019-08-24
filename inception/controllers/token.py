@@ -2,13 +2,13 @@ from nanohttp import json, context, RestController
 from restfulpy.authorization import authorize
 
 from ..exceptions import HTTPIncorrectEmailOrPassword
-from ..validators import member_validator
+from ..validators import login_validator
 
 
 class TokenController(RestController):
 
     @json(prevent_empty_form=True)
-    @member_validator
+    @login_validator
     def create(self):
         email = context.form.get('email')
         password = context.form.get('password')
