@@ -26,7 +26,7 @@ class TestMember(LocalApplicationTestCase):
 
         with self.given(
             'Register a member',
-            '/apiv1/register',
+            '/apiv1/members',
             'REGISTER',
             form=form,
         ):

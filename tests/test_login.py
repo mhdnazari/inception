@@ -10,7 +10,7 @@ class TestLogin(LocalApplicationTestCase):
     def mockup(cls):
         session = cls.create_session()
         cls.member = Member(
-            email='already.added@example.com',
+            email='already.addted@example.com',
             name='user_name',
             family='family',
             password='123abc',
@@ -54,5 +54,4 @@ class TestLogin(LocalApplicationTestCase):
                 form=Update(password=(50 + 1) * 'a')
             )
             assert status == '706 Title Length Is More Than 50'
-
 

@@ -1,5 +1,6 @@
 from nanohttp import json, context, HTTPStatus, HTTPNotFound, RestController
 from restfulpy.orm import DBSession, commit
+from restfulpy.authorization import authorize
 
 from ..models import Member
 from ..validators import member_validator
@@ -32,4 +33,10 @@ class MemberController(RestController):
         )
         DBSession.add(member)
         return member
+
+    @json
+    @Member.expose
+    def list(self):
+        query = DBSession.query(Member)
+        return query
 
