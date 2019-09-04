@@ -30,23 +30,23 @@ class TestMember(LocalApplicationTestCase):
             'REGISTER',
             form=form,
         ):
-         assert response.status == 200
+            assert response.status == 200
 
-         when('Invalid email format', form=Update(email='us@.com'))
-         assert status == '701 Invalid Email Format'
+            when('Invalid email format', form=Update(email='us@.com'))
+            assert status == '701 Invalid Email Format'
 
-         when(
-             'Email address already is registered',
-             form=Update(email='already.added@example.com')
-         )
-         assert status == '601 Email Address Is Already Registered'
+            when(
+                'Email address already is registered',
+                 form=Update(email='already.added@example.com')
+            )
+            assert status == '601 Email Address Is Already Registered'
 
-         when('Request without email parameter', form=Remove('email'))
-         assert status == '722 Email Not In Form'
+            when('Request without email parameter', form=Remove('email'))
+            assert status == '722 Email Not In Form'
 
-         when('Request without name parameter', form=Remove('name'))
-         assert status == '723 Name Not In Form'
+            when('Request without name parameter', form=Remove('name'))
+            assert status == '723 Name Not In Form'
 
-         when('Request without family', form=Remove('family'))
-         assert 'Family Not In form'
+            when('Request without family', form=Remove('family'))
+            assert 'Family Not In form'
 
