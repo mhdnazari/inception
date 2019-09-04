@@ -10,7 +10,7 @@ from .member import MemberController
 class ApiV1(Controller):
     foos = FooController()
     tokens = TokenController()
-    register = MemberController()
+    members = MemberController()
 
     @json
     def version(self):
