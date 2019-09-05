@@ -3,7 +3,9 @@ from bddrest.authoring import response, status, when, given, Update, Remove
 from inception.models import Member
 from .helpers import LocalApplicationTestCase
 
+
 class TestMember(LocalApplicationTestCase):
+
     @classmethod
     def mockup(cls):
         cls.member = Member(

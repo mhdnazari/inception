@@ -1,4 +1,5 @@
-from nanohttp import json, context, HTTPStatus, HTTPNotFound, RestController
+from nanohttp import json, context, HTTPStatus, HTTPNotFound, RestController, \
+    int_or_notfound
 from restfulpy.orm import DBSession, commit
 from restfulpy.authorization import authorize
 
@@ -7,7 +8,6 @@ from ..validators import member_validator
 
 
 class MemberController(RestController):
-    __model__ = Member
 
     @json(prevent_empty_form=True)
     @member_validator
@@ -39,4 +39,14 @@ class MemberController(RestController):
     def list(self):
         query = DBSession.query(Member)
         return query
+
+    @json(prevent_form='709 Form Not Allowed')
+    @authorize
+    def get(self, id):
+        id = int_or_notfound(id)
+        member = DBSession.query(Member).get(id)
+        if member is None:
+            raise HTTPNotFound()
+
+        return member
 
