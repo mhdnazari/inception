@@ -35,6 +35,7 @@ class MemberController(RestController):
         return member
 
     @json
+    @authorize
     @Member.expose
     def list(self):
         query = DBSession.query(Member)
@@ -48,5 +49,16 @@ class MemberController(RestController):
         if member is None:
             raise HTTPNotFound()
 
+        return member
+
+    @json
+    @commit
+    def unregister(self, id):
+        id = int_or_notfound(id)
+        member = DBSession.query(Member).get(id)
+        if member is None:
+            raise HTTPNotFound()
+
+        DBSession.delete(member)
         return member
 

@@ -19,6 +19,8 @@ class TestMember(LocalApplicationTestCase):
         session.commit()
 
     def test_member_list(self):
+        self.login(self.member.email)
+
         form = dict(
             name='new name',
             family='new family',
