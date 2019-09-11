@@ -62,7 +62,9 @@ class MemberController(RestController):
         DBSession.delete(member)
         return member
 
+    @json
     @commit
+    @member_validator
     def update(self, id):
         id = int_or_notfound(id)
         member = DBSession.query(Member).get(id)
@@ -71,3 +73,4 @@ class MemberController(RestController):
 
         member.update_from_request()
         return member
+
