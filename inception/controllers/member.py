@@ -62,3 +62,12 @@ class MemberController(RestController):
         DBSession.delete(member)
         return member
 
+    @commit
+    def update(self, id):
+        id = int_or_notfound(id)
+        member = DBSession.query(Member).get(id)
+        if member is None:
+            raise HTTPNotFound()
+
+        member.update_from_request()
+        return member
