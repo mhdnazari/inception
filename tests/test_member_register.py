@@ -9,10 +9,12 @@ class TestMember(LocalApplicationTestCase):
     @classmethod
     def mockup(cls):
         cls.member = Member(
-            name='member name',
-            family='member family',
+            name='Member name',
+            family='Member family',
             email='already.added@example.com',
             _password='123abc',
+            description='Member description',
+            role='member',
         )
         session = cls.create_session()
         session.add(cls.member)
@@ -24,6 +26,8 @@ class TestMember(LocalApplicationTestCase):
             family='new family',
             email='already@example.com',
             password='123abc',
+            role='member',
+            description='description',
         )
 
         with self.given(

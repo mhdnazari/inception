@@ -13,6 +13,8 @@ class TestMember(LocalApplicationTestCase):
             family='member family',
             email='already@example.com',
             _password='123abc',
+            description='description',
+            role='member',
         )
         session = cls.create_session()
         session.add(cls.member)

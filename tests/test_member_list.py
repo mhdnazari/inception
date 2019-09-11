@@ -10,10 +10,12 @@ class TestMember(LocalApplicationTestCase):
     def mockup(cls):
         session = cls.create_session()
         cls.member = Member(
-            name = 'Member Name',
-            family = 'Member Family',
-            email = 'member@example.com',
-            password = 'abc123',
+            name='Member Name',
+            family='Member Family',
+            email='Member@example.com',
+            password='abc123',
+            description='Member description',
+            role='member',
         )
         session.add(cls.member)
         session.commit()
