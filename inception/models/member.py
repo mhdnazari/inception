@@ -179,7 +179,6 @@ class Member(DeclarativeBase):
             'family': self.family,
             'role': [self.role],
             'sessionId': str(uuid.uuid4()),
-            'description': self.description,
         })
 
     def create_refresh_principal(self):
