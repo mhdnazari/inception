@@ -52,6 +52,7 @@ class MemberController(RestController):
         return member
 
     @json
+    @authorize
     @commit
     def unregister(self, id):
         id = int_or_notfound(id)
@@ -63,8 +64,9 @@ class MemberController(RestController):
         return member
 
     @json
-    @commit
+    @authorize
     @member_validator
+    @commit
     def update(self, id):
         id = int_or_notfound(id)
         member = DBSession.query(Member).get(id)
