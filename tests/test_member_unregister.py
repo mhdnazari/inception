@@ -11,10 +11,11 @@ class TestMember(LocalApplicationTestCase):
         session = cls.create_session()
         cls.member = Member(
             email='already.addted@example.com',
-            name='user_name',
-            family='family',
+            name='Member name',
+            family='Member family',
             password='123abc',
-
+            description='Member description',
+            role='member',
         )
         session.add(cls.member)
         session.commit()

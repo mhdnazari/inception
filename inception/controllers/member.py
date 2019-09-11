@@ -17,6 +17,8 @@ class MemberController(RestController):
         password = context.form.get('password')
         name = context.form.get('name')
         family = context.form.get('family')
+        description = context.form.get('description')
+        role = 'member'
 
         member = DBSession.query(Member) \
             .filter(Member.email == email) \
@@ -30,6 +32,8 @@ class MemberController(RestController):
             name=name,
             password=password,
             family=family,
+            description=description,
+            role=role,
         )
         DBSession.add(member)
         return member

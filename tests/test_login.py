@@ -14,6 +14,8 @@ class TestLogin(LocalApplicationTestCase):
             name='user_name',
             family='family',
             password='123abc',
+            description='description',
+            role='member',
         )
         session.add(cls.member)
         session.commit()
