@@ -56,6 +56,7 @@ class MemberController(RestController):
         return member
 
     @json
+    @authorize
     @commit
     def unregister(self, id):
         id = int_or_notfound(id)
@@ -64,5 +65,18 @@ class MemberController(RestController):
             raise HTTPNotFound()
 
         DBSession.delete(member)
+        return member
+
+    @json
+    @authorize
+    @member_validator
+    @commit
+    def update(self, id):
+        id = int_or_notfound(id)
+        member = DBSession.query(Member).get(id)
+        if member is None:
+            raise HTTPNotFound()
+
+        member.update_from_request()
         return member
 
