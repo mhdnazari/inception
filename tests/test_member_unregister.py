@@ -21,6 +21,8 @@ class TestMember(LocalApplicationTestCase):
         session.commit()
 
     def test_member_unregister(self):
+        self.login(self.member.email)
+
         with self.given(
             'Unregister a member',
             f'/apiv1/members/id: {self.member.id}',

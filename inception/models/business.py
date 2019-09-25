@@ -29,7 +29,7 @@ class Business(DeclarativeBase):
 
     member = relationship(
         'Member',
-        back_populates='business',
+        back_populates='businesses',
         protected=True,
     )
 
