@@ -108,11 +108,19 @@ class Member(DeclarativeBase):
         max_length=200,
         protected=True,
     )
-    description = Field(Unicode(500))
+    description = Field(Unicode(500), nullable=True)
     role = Field(Unicode(50))
 
     #TODO: use sqlalchemy media
     #cover
+
+    businesses = relationship(
+        'Business',
+        back_populates='member',
+        protected=True,
+        uselist=False,
+    )
+
     @property
     def avatar(self):
         return self._avatar.locate() if self._avatar else None
