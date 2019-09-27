@@ -1,6 +1,5 @@
 from bddrest.authoring import response, status, when, given, Update, Remove
 
-from inception.models import Business
 from .helpers import LocalApplicationTestCase
 from inception.models import Member, Business
 
@@ -24,7 +23,7 @@ class TestBusiness(LocalApplicationTestCase):
             title='Business title',
             address='Business address',
             area='Business area',
-            phone=9352117155,
+            phone='9352117155',
             member_id =1,
         )
         session.add(cls.business)
@@ -35,7 +34,7 @@ class TestBusiness(LocalApplicationTestCase):
             title='new business',
             address='new address',
             area='new area',
-            phone=989352117155,
+            phone='989352117155',
             memberId=1,
         )
 
