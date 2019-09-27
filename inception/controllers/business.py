@@ -4,11 +4,13 @@ from restfulpy.orm import DBSession, commit
 from restfulpy.authorization import authorize
 
 from ..models import Business, Member
+from ..validators import business_validator
 
 
 class BusinessController(RestController):
 
     @json(prevent_empty_form=True)
+    @business_validator
     @commit
     def register(self):
         title = context.form.get('title')
@@ -23,7 +25,7 @@ class BusinessController(RestController):
         if DBSession.query(Business.title) \
         .filter(Business.title == title) \
         .count():
-            raise HTTPStatus('601 Title Is Already Registered')
+            raise HTTPStatus('602 Title Is Already Registered')
 
         business = Business(
             title=title,
