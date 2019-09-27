@@ -43,3 +43,13 @@ class BusinessController(RestController):
         query = DBSession.query(Business)
         return query
 
+    @json(prevent_form='709 Form Not Allowed')
+    @authorize
+    def get(self, id):
+        int_or_notfound(id)
+        business = DBSession.query(Business),get(id)
+        if business is None:
+            HTTPNotFound()
+
+        return business
+
