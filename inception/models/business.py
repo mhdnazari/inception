@@ -10,12 +10,13 @@ class Business(DeclarativeBase):
         Unicode(50),
         required=True,
         not_none=True,
+        pattern=r'^[a-zA-Z][\w]{5,19}$',
         min_length=3,
         max_length=50,
         unique=True,
     )
     address = Field(Unicode(250))
-    phone = Field(BigInteger, nullable=True, required=False)
+    phone = Field(Unicode(11), nullable=True, required=False)
     area = Field(Unicode(50))
     member_id = Field(
         Integer,

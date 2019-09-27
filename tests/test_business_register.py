@@ -51,5 +51,17 @@ class TestBusiness(LocalApplicationTestCase):
                 'Title address already is registered',
                  form=Update(title='Business title')
             )
-            assert status == '601 Title Is Already Registered'
+            assert status == '602 Title Is Already Registered'
+
+            when('Request without title parameter', form=Remove('title'))
+            assert status == '724 Title Not In Form'
+
+            when('The title format is invalid', form=Update(title='123abc '))
+            assert status == '708 Invalid Title Format'
+
+            when('Request without phone parameter', form=Remove('phone'))
+            assert status == '725 Phone Not In Form'
+
+           # when('The phone format is invalid', form=Update(phone=9352117155))
+           # assert status == '712 Invalid Phone Format'
 
