@@ -36,3 +36,10 @@ class BusinessController(RestController):
         DBSession.add(business)
         return business
 
+    @json
+    @authorize
+    @Business.expose
+    def list(self):
+        query = DBSession.query(Business)
+        return query
+
