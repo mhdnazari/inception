@@ -47,7 +47,7 @@ class BusinessController(RestController):
     @authorize
     def get(self, id):
         int_or_notfound(id)
-        business = DBSession.query(Business),get(id)
+        business = DBSession.query(Business).get(id)
         if business is None:
             HTTPNotFound()
 
